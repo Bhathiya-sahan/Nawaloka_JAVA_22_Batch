@@ -54,4 +54,16 @@ public class Main {
         }
     }
 
+    private static void Receipt(int seat, int Date){
+        System.out.println("\t\tReceipt");
+        System.out.println("\t\t*******");
+        System.out.println("\t\tDate:"+Date);
+        System.out.println("\t\tNumber of seats booked : "+seat);
+        System.out.println("\t\t"+seat+"* Standard @ $xx.xx =$ ");
+        System.out.println("\t\t"+seat+"* Pensioner @ $xx.xx =$ ");
+        System.out.println("\t\t"+seat+"* Frequent @ $xx.xx =$ ");
+        System.out.println("\t\t\t\tTotal :$ ");
+
+    }
+
 }

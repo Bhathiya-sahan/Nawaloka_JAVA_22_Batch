@@ -32,7 +32,26 @@ public class Main {
         category = scan.next();
         System.out.println("\n-------------------------------------------------");
 
-
+        print_seat(number_of_rows);
 
     }
+    private static void print_seat(int Rows){
+        System.out.println("\n\t\t\t\t   *********");
+        System.out.println("\t\t\t\t   * STAGE *");             //  print out a header with the word "STAGE" surrounded by stars.
+        System.out.println("\t\t\t\t   *********\n");
+
+        for(int i=0 ; i<Rows ; i++){
+            System.out.print("\t\t");
+            for(int x=0 ; x<5; x++){
+                System.out.print(" X ");
+            }
+            System.out.print(" ");
+
+            for(int x=5 ; x<10; x++){
+                System.out.print(" X ");
+            }
+            System.out.print("\n");
+        }
+    }
+
 }

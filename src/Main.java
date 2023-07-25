@@ -6,6 +6,7 @@
 
 //Stage A - Basic ticket booking system.
 
+import java.util.Date;
 import java.util.Scanner;  // Import Scanner class to code
 
 public class Main {
@@ -42,7 +43,38 @@ public class Main {
                 seat_list[i][j] = "O";
             }
         }
-        buy_ticket(seat_list,date,number_of_rows);
+//____________________________ Start ----------------------------------------------------
+        boolean gate1 = true;
+        while (gate1) {// Get while loop to repeat menu part
+            int option;
+            System.out.println("\n-------------------------------------------------");
+            System.out.println("Please select an option:\n");
+            System.out.println("1) Buy a ticket");
+            System.out.println("2) Print seating area");
+            System.out.println("3) Cancel ticket");
+            System.out.println("0) Quit");
+            System.out.println("-------------------------------------------------\n");
+
+            try {
+                System.out.print("Enter option: ");//Display to user to "Enter option: "
+                option = scan.nextInt();        //Get user input to variable name "option"
+                System.out.println(" ");
+                switch (option) {       // Use switch case and assign "option" variable for parameter of switch case
+                    case 1 -> buy_ticket(seat_list,date,number_of_rows);             // In case 1,call to buy_ticket method
+                    case 2 -> print_seat(seat_list,number_of_rows);     // In case 2,call to print_seating_area method
+                    case 3 -> cancel_ticket(seat_list,number_of_rows,date);          // In case 3,call to cancel_ticket method
+                    case 0 -> {
+                        System.out.println("\t\t>> Thank you for join with us <<");
+                        gate1 = false;
+                    }                                                             // In case 0,Assign false value to check variable, this case use to quit e program
+                    default ->
+                            System.out.println("\t>> Invalid Option, Please Enter Valid Option <<");  // In default case, Display error message which is inputs are invalid
+                }
+            } catch (Exception e) {
+                System.out.println("\t\t>> Invalid Option, Please Enter Valid Option <<");
+            }
+            scan.nextLine();
+        }
     }
 //____________________________ Buy Seat Function ----------------------------------------------------
         private static void buy_ticket(String[][] seat_area, String date, int Rows){
@@ -52,9 +84,9 @@ public class Main {
             int seat = scan.nextInt();
 
             for(int i=0; i<seat; i++) {
-                boolean gate1 = true;
+                boolean gate2 = true;
                 System.out.println("\nEnter your "+(i+1)+" seat details.");
-                while(gate1) {
+                while(gate2) {
 
                     System.out.print("Enter Row Number : ");
                     int row_number = scan.nextInt();
@@ -63,7 +95,7 @@ public class Main {
 
                     if (seat_area[row_number-1][seat_number-1] == "O") {
                         seat_area[row_number-1][seat_number-1] = "X";
-                        gate1=false;
+                        gate2=false;
                     }
                     else {
                         System.out.println("This Seat also booked, try another one.");
@@ -78,35 +110,55 @@ public class Main {
 
 
     //____________________________ Cancel Ticket Function ----------------------------------------------------
-    private static void cancel_ticket(String[][] seat_area, int Rows) {       // Declares a privet method called cancel_ticket() method for cancel booked tickets
+    private static void cancel_ticket(String[][] seat_area, int Rows,String date) {       // Declares a privet method called cancel_ticket() method for cancel booked tickets
         print_seat(seat_area, Rows);                            // Call print_seat method
 
-        boolean gate2 = true;
-        while (gate2) {
+        Scanner scan2 = new Scanner(System.in);     //Create a new object name "scan2" to get user input by using Scanner class
 
-            Scanner scan2 = new Scanner(System.in);     //Create a new object name "scan2" to get user input by using Scanner class
+        try {
+            System.out.print("How many seat do you need to cancel : ");
+            int seat = scan2.nextInt();
 
-            try {                                       // Use exception to recover invalid input
-                System.out.print("\nRow number : ");    // Ask user which row his canceling ticket locating
-                int row_number = scan2.nextInt();           // Assign Row number to row_number variable
-                if (0 < row_number && row_number <= Rows ) {
-                    try {
-                        System.out.print("\nSeat number : ");    // Ask user which row his canceling ticket locating
-                        int seat_number = scan2.nextInt();           // Assign Row number to row_number variable
-                        if(0<seat_number && seat_number<11){
-                            seat_area[row_number-1][seat_number-1] ="O";
-                            gate2 = false;
-                        }else {
-                            System.out.println("\t>>Invalid Seat Number,Enter Valid Seat(1-10) <<");
+            for (int j = 0; j < seat; j++) {
+                System.out.println("\nEnter your " + (j + 1) + " seat details which do you need to cancel.");
+                boolean gate3 = true;
+                while (gate3) {
+                    try {                                       // Use exception to recover invalid input
+                        System.out.print("\nRow number : ");    // Ask user which row his canceling ticket locating
+                        int row_number = scan2.nextInt();           // Assign Row number to row_number variable
+                        if (0 < row_number && row_number <= Rows) {
+                            try {
+                                System.out.print("Seat number : ");    // Ask user which row his canceling ticket locating
+                                int seat_number = scan2.nextInt();           // Assign Row number to row_number variable
+                                if (0 < seat_number && seat_number < 11) {
+                                    seat_area[row_number - 1][seat_number - 1] = "O";
+                                    gate3 = false;
+                                    System.out.println("\nYour seats are cancel.\nThanks for join with us");
+                                }
+                                else if (seat_number == 000) {
+                                    gate3=false;
+                                    j=seat;}
+                                else {
+                                    System.out.println("\t>>Invalid Seat Number,Enter Valid Seat(1-10) <<");
+                                }
+                            } catch (Exception e) {
+                                System.out.println("\t>>Invalid Seat Number,Seat number must be an integer <<");
+                            }
                         }
-                    }catch (Exception e){
-                        System.out.println("\t>>Invalid Seat Number,Seat number must be an integer <<");
-                    }
-                } else {
-                    System.out.println("\t>>Invalid Row Number,Enter Valid Row(1-"+Rows+") <<" );
+                        else if (row_number == 0000) {
+                            gate3=false;
+                            j=seat;}
+                        else {
+                            System.out.println("\t>>Invalid Row Number,Enter Valid Row(1-" + Rows + ") <<");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("\t>>Invalid Row Number,Row number must be an integer <<");
+                    }          // Exception output
                 }
-            } catch (Exception e) {
-                System.out.println( "\t>>Invalid Row Number,Row number must be an integer <<" );}          // Exception output
+                receipt(seat,date);
+            }
+        }catch (Exception e){
+            System.out.println("\t>>Invalid Seats,it must be an integer <<");
         }
     }
 

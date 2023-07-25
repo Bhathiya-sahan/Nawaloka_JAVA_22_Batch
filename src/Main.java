@@ -76,6 +76,40 @@ public class Main {
             receipt(seat,date);
         }
 
+
+    //____________________________ Cancel Ticket Function ----------------------------------------------------
+    private static void cancel_ticket(String[][] seat_area, int Rows) {       // Declares a privet method called cancel_ticket() method for cancel booked tickets
+        print_seat(seat_area, Rows);                            // Call print_seat method
+
+        boolean gate2 = true;
+        while (gate2) {
+
+            Scanner scan2 = new Scanner(System.in);     //Create a new object name "scan2" to get user input by using Scanner class
+
+            try {                                       // Use exception to recover invalid input
+                System.out.print("\nRow number : ");    // Ask user which row his canceling ticket locating
+                int row_number = scan2.nextInt();           // Assign Row number to row_number variable
+                if (0 < row_number && row_number <= Rows ) {
+                    try {
+                        System.out.print("\nSeat number : ");    // Ask user which row his canceling ticket locating
+                        int seat_number = scan2.nextInt();           // Assign Row number to row_number variable
+                        if(0<seat_number && seat_number<11){
+                            seat_area[row_number-1][seat_number-1] ="O";
+                            gate2 = false;
+                        }else {
+                            System.out.println("\t>>Invalid Seat Number,Enter Valid Seat(1-10) <<");
+                        }
+                    }catch (Exception e){
+                        System.out.println("\t>>Invalid Seat Number,Seat number must be an integer <<");
+                    }
+                } else {
+                    System.out.println("\t>>Invalid Row Number,Enter Valid Row(1-"+Rows+") <<" );
+                }
+            } catch (Exception e) {
+                System.out.println( "\t>>Invalid Row Number,Row number must be an integer <<" );}          // Exception output
+        }
+    }
+
 //____________________________ Print Seat Function ----------------------------------------------------
 
     private static void print_seat(String[][] seat_area, int Rows){

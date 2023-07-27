@@ -36,11 +36,57 @@ public class Main {
         frequent = scan.nextFloat();
         System.out.println("\n-------------------------------------------------");
 
-        String[][] seat_list = new String[number_of_rows][10];
+        String[] seats = new String[ number_of_rows*10+1];
+        for (int i = 0; i <= number_of_rows*10; i++) {
+            seats[i] ="0";
+        }
 
-        for (int i = 0; i < number_of_rows; i++) {
-            for (int j = 0; j < 10; j++) {
-                seat_list[i][j] = "O";
+        System.out.print("\t\t");
+        for (int x =1; x<=10; x++){
+             if(x%5 == 0){
+                 if(seats[x]=="0"){
+                     System.out.print(" "+(x)+":- ");
+                     System.out.print("\t");
+                 }else{
+                     System.out.print(" "+(x)+":B ");
+                     System.out.print("\t");
+                 }
+            }else {
+                 if(seats[x]=="0"){
+                     System.out.print(" "+(x)+":- ");
+                 }else{
+                     System.out.print(" "+(x)+":B ");
+                 }
+             }
+        }
+
+        System.out.println(" ");
+        System.out.print("\t");
+        for (int x =11; x<seats.length; x++){
+            if (x%10 == 0){
+                if(seats[x]=="0"){
+                    System.out.println(" "+(x)+":- ");
+                    System.out.print("\t");
+                }else{
+                    System.out.println(" "+(x)+":B ");
+                    System.out.print("\t");
+                }
+            }
+            else if(x%5 == 0){
+                if(seats[x]=="0"){
+                    System.out.print(" "+(x)+":- ");
+                    System.out.print("\t");
+                }else{
+                    System.out.print(" "+(x)+":B ");
+                    System.out.print("\t");
+                }
+            }
+            else {
+                if(seats[x]=="0"){
+                    System.out.print(" "+(x)+":- ");
+                }else{
+                    System.out.print(" "+(x)+":B ");
+                }
             }
         }
 //____________________________ Start ----------------------------------------------------

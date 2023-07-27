@@ -119,44 +119,59 @@ public class Main {
             System.out.print("How many seat do you need to cancel : ");
             int seat = scan2.nextInt();
 
-            for (int j = 0; j < seat; j++) {
-                System.out.println("\nEnter your " + (j + 1) + " seat details which do you need to cancel.");
-                boolean gate3 = true;
-                while (gate3) {
-                    try {                                       // Use exception to recover invalid input
-                        System.out.print("\nRow number : ");    // Ask user which row his canceling ticket locating
-                        int row_number = scan2.nextInt();           // Assign Row number to row_number variable
-                        if (0 < row_number && row_number <= Rows) {
-                            try {
-                                System.out.print("Seat number : ");    // Ask user which row his canceling ticket locating
-                                int seat_number = scan2.nextInt();           // Assign Row number to row_number variable
-                                if (0 < seat_number && seat_number < 11) {
-                                    seat_area[row_number - 1][seat_number - 1] = "O";
-                                    gate3 = false;
-                                    System.out.println("\nYour seats are cancel.\nThanks for join with us");
-                                }
-                                else if (seat_number == 000) {
-                                    gate3=false;
-                                    j=seat;}
-                                else {
-                                    System.out.println("\t>>Invalid Seat Number,Enter Valid Seat(1-10) <<");
-                                }
-                            } catch (Exception e) {
-                                System.out.println("\t>>Invalid Seat Number,Seat number must be an integer <<");
-                            }
-                        }
-                        else if (row_number == 0000) {
-                            gate3=false;
-                            j=seat;}
-                        else {
-                            System.out.println("\t>>Invalid Row Number,Enter Valid Row(1-" + Rows + ") <<");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("\t>>Invalid Row Number,Row number must be an integer <<");
-                    }          // Exception output
+            int count =0;
+            for(int i=0 ; i<Rows ; i++) {
+                for (int x = 0; x < 10; x++) {
+                    if(seat_area[i][x] == "X"){
+                        count++;
+                    }
                 }
-                receipt(seat,date);
             }
+
+            if(seat <=count ) {
+                for (int j = 0; j < seat; j++) {
+                    System.out.println("\nEnter your " + (j + 1) + " seat details which do you need to cancel.");
+                    boolean gate3 = true;
+                    while (gate3) {
+                        try {                                       // Use exception to recover invalid input
+                            System.out.print("\nRow number : ");    // Ask user which row his canceling ticket locating
+                            int row_number = scan2.nextInt();           // Assign Row number to row_number variable
+                            if (0 < row_number && row_number <= Rows) {
+                                try {
+                                    System.out.print("Seat number : ");    // Ask user which row his canceling ticket locating
+                                    int seat_number = scan2.nextInt();           // Assign Row number to row_number variable
+                                    if (0 < seat_number && seat_number < 11) {
+                                        if(seat_area[row_number - 1][seat_number - 1]=="X") {
+                                            seat_area[row_number - 1][seat_number - 1] = "O";
+                                            gate3 = false;
+                                        }else {
+                                            System.out.println("Invalid seat. This Seat is not booked.");
+                                            gate3 = false;
+                                            j = seat;
+                                        }
+                                    } else if (seat_number == 0000) {
+                                        gate3 = false;
+                                        j = seat;
+                                    } else {
+                                        System.out.println("\t>>Invalid Seat Number,Enter Valid Seat(1-10) <<");
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("\t>>Invalid Seat Number,Seat number must be an integer <<");
+                                }
+                            } else if (row_number == 0000) {
+                                gate3 = false;
+                                j = seat;
+                            } else {
+                                System.out.println("\t>>Invalid Row Number,Enter Valid Row(1-" + Rows + ") <<");
+                            }
+                        } catch (Exception e) {
+                            System.out.println("\t>>Invalid Row Number,Row number must be an integer <<");}          // Exception output
+                    }
+                }
+                System.out.println("\nYour seats are cancel.\nThanks for join with us");
+                receipt(seat, date);
+            }else {
+                System.out.println("\nYour have not book enough seat");}
         }catch (Exception e){
             System.out.println("\t>>Invalid Seats,it must be an integer <<");
         }
@@ -165,24 +180,66 @@ public class Main {
 //____________________________ Print Seat Function ----------------------------------------------------
 
     private static void print_seat(String[][] seat_area, int Rows){
-        System.out.print("\n\t\t\t\t *********");
-        System.out.println("\t  \"X\"- Unavailable");
-        System.out.print("\t\t\t\t * STAGE *");             //  print out a header with the word "STAGE" surrounded by stars.
-        System.out.println("\t  \"O\"- available");
-        System.out.println("\t\t\t\t *********\n");
+        System.out.print("\n\t\t\t\t\t\t**********");
+        System.out.println("\t  \"B\"- Unavailable");
+        System.out.print("\t\t\t\t\t\t * SCREEN *");             //  print out a header with the word "STAGE" surrounded by stars.
+        System.out.println("\t  \"-\"- available");
+        System.out.println("\t\t\t\t\t\t**********\n");
 
-        for(int i=0 ; i<Rows ; i++){
-            System.out.print("\t");
-            for(int x=0 ; x<5; x++){
-                System.out.print(" "+seat_area[i][x]+" ");
-            }
+       //----- First line------
+
+        for(int i=0 ; i<1 ; i++){
             System.out.print("\t\t");
+            for(int x=0 ; x<5; x++){
+                if(seat_area[i][x] == "O") {
+                    System.out.print(" " + (x + 1) + ":-");
+                }else {
+                    System.out.print(" " + (x + 1) + ":B");
+                }
+            }
+            System.out.print("\t");
 
             for(int x=5 ; x<10; x++){
-                System.out.print(" "+seat_area[i][x]+" ");
+                if(seat_area[i][x] == "O") {
+                    System.out.print(" " + (x + 1) + ":-");
+                }else {
+                    System.out.print(" " + (x + 1) + ":B");
+                }
             }
             System.out.print("\n");
         }
+//-------Other Lines-----------
+        for(int i=1 ; i<Rows ; i++){
+            System.out.print("\t");
+            for(int x=0 ; x<5; x++){
+                if(seat_area[i][x] == "O") {
+                    System.out.print(" " + (((i*10)+x) + 1) + ":-");
+                }else {
+                    System.out.print(" " + (((i*10)+x) + 1) + ":B");
+                }
+            }
+            System.out.print("\t");
+
+            for(int x=5 ; x<10; x++){
+                if(seat_area[i][x] == "O") {
+                    System.out.print(" " + (((i*10)+x) + 1) + ":-");
+                }else {
+                    System.out.print(" " + (((i*10)+x) + 1) + ":B");
+                }
+            }
+            System.out.print("\n");
+        }
+
+        int count =0;
+        for(int i=0 ; i<Rows ; i++) {
+            for (int x = 0; x < 10; x++) {
+                if(seat_area[i][x] == "O"){
+                    count++;
+                }
+            }
+        }
+        System.out.println("\nNumber of available seats: "+count);
+
         System.out.println("\n-------------------------------------------------");
     }
 
